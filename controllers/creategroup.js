@@ -2,7 +2,7 @@ const handlecreategroup = (req, res, groups) => {
     // Input format like:
     // {
     //     "namee":"Home",
-    //     "members":"A B C"
+    //     "members":"A,B,C"
     // }
     const group = {
         namee: req.body.namee,
