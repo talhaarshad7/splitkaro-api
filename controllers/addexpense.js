@@ -10,6 +10,7 @@ const handleaddexpense = (req, res, groups) => {
         res.status(404).send('The group with the given name was not found.');
         return;
     }
+    //Checking if there is any new member appearing in the expense and if so then adding it to the members array.
     group.expenses.push(req.body);
     req.body.items.forEach(element => {
         element.paid_by.forEach(x => {

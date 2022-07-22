@@ -5,6 +5,7 @@ const handlesimplifyexpense = (req, res, groups) => {
         res.status(404).send('The group with the given name was not found.');
         return;
     }
+    //seperating the paid by and paid for.
     var input = [];
     group.members.forEach(element => {
         const temp = {
@@ -13,7 +14,7 @@ const handlesimplifyexpense = (req, res, groups) => {
         }
         input.push(temp);
     })
-
+    //for each transaction of i'th member add all the paidfor and subtract all paidfor for the paidfor for the corresponding member.
     function simplifyDebts(transactions) {
         var splits = new Array()
         var transaction_map = new Map();
@@ -30,7 +31,7 @@ const handlesimplifyexpense = (req, res, groups) => {
                 transaction_map.set(tr, transaction_map.get(tr) - transactions[i].paidFor[tr])
             }
         }
-
+        //settling all the members having the same debt and credit.
         function settleSimilarFigures() {
             let vis = new Map();
             for (let tr1 of transaction_map.keys()) {
@@ -50,7 +51,7 @@ const handlesimplifyexpense = (req, res, groups) => {
                 }
             }
         }
-
+        //selecting the max and min credit members for greedy algorithm.
         function getMaxMinCredit() {
             let max_ob, min_ob, max = Number.MIN_VALUE, min = Number.MAX_VALUE
             for (let tr of transaction_map.keys()) {
@@ -65,7 +66,7 @@ const handlesimplifyexpense = (req, res, groups) => {
             }
             return [min_ob, max_ob];
         }
-
+        //operating greedily on all the members recursively.
         function helper() {
             let minMax = getMaxMinCredit();
             if (minMax[0] == undefined || minMax[1] == undefined) return;
@@ -87,7 +88,7 @@ const handlesimplifyexpense = (req, res, groups) => {
 
 
 
-
+    //seperating all the paidby and owedby.
     group.expenses.forEach(element => {
         element.items.forEach(e => {
             copy_paidby = JSON.parse(JSON.stringify(e.paid_by[0]));
@@ -152,6 +153,7 @@ const handlesimplifyexpense = (req, res, groups) => {
         }
     })
     console.log(ans);
+    //calculating the total balance for all the members.
     ans.forEach(el => {
         const f = el[0];
         const t = el[1];

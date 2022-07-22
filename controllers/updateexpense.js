@@ -6,12 +6,13 @@ const handleupdateexpense = (req, res, groups) => {
     //     { "name": "fruits", "value": 50, "paid_by": [{ "A": 50 }], "owed_by": [{ "A": 10, "B": 30, "C": 10 }] }]
     // }
 
-
+    //Finding the group name which is passed.
     const group = groups.find(c => c.namee === req.params.gname);
     if (!group) {
         res.status(404).send('The group with the given name was not found.');
         return;
     }
+    //Findig the expense with the given expense name.
     const expense = group.expenses.find(c => c.namee === req.body.namee)
     if (!expense) {
         res.status(404).send('The expense with the given expense name was not found.');

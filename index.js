@@ -21,7 +21,7 @@ app.use(express.json());
 
 
 app.get('/', function (req, res) {
-    res.send("Hello world"));
+    res.send("Hello world");
 });
 
 app.get('/get-all', (req, res) => {
